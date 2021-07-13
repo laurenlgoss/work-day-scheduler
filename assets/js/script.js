@@ -1,4 +1,11 @@
-// Current day displayed in header
+var $currentDay = $("#currentDay");
+
+var currentTime = moment();
+
+function init() {
+    // Display current day in header
+    $currentDay.text(currentTime.format("dddd, MMMM Do"));
+}
 
 // Timeblocks color coded
     // Past
@@ -16,3 +23,5 @@
         // Text saved in local storage
 
     // When refreshed, events persist
+
+init();
