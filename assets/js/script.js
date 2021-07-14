@@ -2,18 +2,9 @@ var $currentDay = $("#currentDay");
 var $descriptionArray = $(".description");
 var $saveButtonArray = $(".saveBtn");
 
-var $event09 = $("#event-09");
-var $event10 = $("#event-10");
-var $event11 = $("#event-11");
-var $event12 = $("#event-12");
-var $event13 = $("#event-13");
-var $event14 = $("#event-14");
-var $event15 = $("#event-15");
-var $event16 = $("#event-16");
-var $event17 = $("#event-17");
-var eventArray = [$event09, $event10, $event11, $event12, $event13, $event14, $event15, $event16, $event17];
-
 var currentTime = moment();
+
+var storedEventsArray = JSON.parse(localStorage.getItem("event")) || [];
 
 function init() {
     // Display current day in header
@@ -33,9 +24,9 @@ function colorTimeblocks() {
 
     // Compare timeblocks to current hour, assign appropriate class
     for (var i = 0; i < $descriptionArray.length; i++) {
-        if ($descriptionArray[i].dataset.time < currentHour) {
+        if ($descriptionArray[i].parentNode.dataset.time < currentHour) {
             $descriptionArray[i].classList.add("past");
-        } else if ($descriptionArray[i].dataset.time === currentHour) {
+        } else if ($descriptionArray[i].parentNode.dataset.time === currentHour) {
             $descriptionArray[i].classList.add("present");
         } else {
             $descriptionArray[i].classList.add("future");
@@ -44,8 +35,17 @@ function colorTimeblocks() {
 }
 
 // Save events within timeblocks
-function handleSave($eventXX) {
+function handleSave(event) {    
+    var eventObject = {
+    hour: event.target.parentNode.dataset.time,
+    userInput: event.target.previousElementSibling.value,
+    };
+
+    storedEventsArray.push(eventObject);
+
+    localStorage.setItem("event", JSON.stringify(storedEventsArray));
 }
+
     // Create save button
         // Upon click,
 
