@@ -11,11 +11,10 @@ function init() {
     $currentDay.text(currentTime.format("dddd, MMMM Do"));
 
     // Add event listener to all save buttons
-    for (var i = 0; i < $saveButtonArray.length; i++) {
-        $saveButtonArray[i].addEventListener("click", handleSave);
-    }
+    $saveButtonArray.on("click", handleSave);
 
     colorTimeblocks();
+    renderEvents();
 }
 
 // Color code timeblocks
@@ -23,22 +22,22 @@ function colorTimeblocks() {
     var currentHour = currentTime.format("k");
 
     // Compare timeblocks to current hour, assign appropriate class
-    for (var i = 0; i < $descriptionArray.length; i++) {
-        if ($descriptionArray[i].parentNode.dataset.time < currentHour) {
-            $descriptionArray[i].classList.add("past");
-        } else if ($descriptionArray[i].parentNode.dataset.time === currentHour) {
-            $descriptionArray[i].classList.add("present");
+    $descriptionArray.each(function() {
+        if ($(this).parent().attr("data-time") < currentHour) {
+            $(this).addClass("past");
+        } else if ($(this).parent().attr("data-time") === currentHour) {
+            $(this).addClass("present");
         } else {
-            $descriptionArray[i].classList.add("future");
+            $(this).addClass("future");
         }
-    }
+    })
 }
 
-// Save events within timeblocks
-function handleSave(event) {    
+// Save events to local storage
+function handleSave(event) {
     var eventObject = {
-    hour: event.target.parentNode.dataset.time,
-    userInput: event.target.previousElementSibling.value,
+        hour: event.target.parentNode.dataset.time,
+        userInput: event.target.previousElementSibling.value,
     };
 
     storedEventsArray.push(eventObject);
@@ -46,11 +45,8 @@ function handleSave(event) {
     localStorage.setItem("event", JSON.stringify(storedEventsArray));
 }
 
-    // Create save button
-        // Upon click,
-
-        // Text saved in local storage
-
-    // When refreshed, events persist
+function renderEvents() {
+    
+}
 
 init();
